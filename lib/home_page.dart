@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:travel_mate/itinerary.dart';
+import 'package:travel_mate/itinerary_details.dart';
 import 'package:travel_mate/login.dart';
 import 'package:travel_mate/my_itineraries.dart';
 import 'package:travel_mate/new_itinerary.dart';
@@ -45,13 +45,13 @@ class HomePage extends StatelessWidget {
               children: [
                 MaterialButton(
                   child: Text(
-                    "Itinerary",
+                    "Itinerary Details",
                     style: TextStyle(color: Colors.white),
                   ),
                   color: Colors.blue,
                   onPressed: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: ((context) => (Itinerary()))));
+                        builder: ((context) => (ItineraryDetails()))));
                   },
                 ),
               ],

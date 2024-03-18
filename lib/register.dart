@@ -7,22 +7,19 @@ class Register extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Register',
-      theme: ThemeData(
-        primaryColor: Colors.blue,
-        scaffoldBackgroundColor: Colors.white,
-      ),
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            'Register',
-            style: TextStyle(color: Colors.white),
-          ),
-          backgroundColor: Colors.blue,
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () => Navigator.of(context).pop(),
         ),
-        body: RegisterForm(),
+        title: Text(
+          'Register',
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: Colors.blue,
       ),
+      body: RegisterForm(),
     );
   }
 }
