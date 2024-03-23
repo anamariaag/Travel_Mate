@@ -1,16 +1,14 @@
-# travel_mate
+# Travel mate
 
-A new Flutter project.
+TravelMate is an all-in-one travel planning application designed to simplify the process of organizing and optimizing your travel itineraries. 
 
-## Getting Started
+## Problem Statement
+One of the most challenging aspects of traveling is creating an itinerary of attractions considering each location's proximity and creating an efficient route that allows you to visit as many as possible.
 
-This project is a starting point for a Flutter application.
+Crucial information such as activity itineraries, transportation options, and local recommendations are often scattered across various websites and applications. Lack of coordination can lead to planning errors, time wastage, and unnecessary stress during the trip itself.
 
-A few resources to get you started if this is your first Flutter project:
+## Solution
+TravelMate offers a comprehensive and customizable travel planning solution that centralizes all necessary information to organize a successful trip.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Users can create personalized itineraries based on their interests, time preferences, and budget, with the ability to easily save and share travel plans with others.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
