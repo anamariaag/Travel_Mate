@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:travel_mate/auth/bloc/auth_bloc.dart';
 
 void main() => runApp(Login());
 
@@ -130,6 +132,24 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ],
               ),
+              SizedBox(
+                height: 30.0,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                      onPressed: () {
+                        BlocProvider.of<AuthBloc>(context)
+                            .add(GoogleAuthEvent());
+                      },
+                      child: SizedBox(
+                        width: 50,
+                        height: 25,
+                        child: Image.asset('assets/google.png'),
+                      )),
+                ],
+              )
             ],
           ),
         ),

@@ -1,10 +1,13 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:travel_mate/itinerary_details.dart';
-import 'package:travel_mate/login.dart';
-import 'package:travel_mate/my_itineraries.dart';
-import 'package:travel_mate/new_itinerary.dart';
-import 'package:travel_mate/profile.dart';
-import 'package:travel_mate/register.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:travel_mate/auth/bloc/auth_bloc.dart';
+import 'package:travel_mate/itinerary/itinerary_details.dart';
+import 'package:travel_mate/login/login.dart';
+import 'package:travel_mate/itinerary/my_itineraries.dart';
+import 'package:travel_mate/itinerary/new_itinerary.dart';
+import 'package:travel_mate/profile/profile.dart';
+import 'package:travel_mate/register/register.dart';
 
 void main() => runApp(const HomePage());
 
@@ -24,22 +27,6 @@ class HomePage extends StatelessWidget {
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                MaterialButton(
-                  child: Text(
-                    "Login",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  color: Colors.blue,
-                  onPressed: () {
-                    Navigator.of(context).push(
-                        MaterialPageRoute(builder: ((context) => (Login()))));
-                  },
-                ),
-              ],
-            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -116,6 +103,25 @@ class HomePage extends StatelessWidget {
                   onPressed: () {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: ((context) => (NewItinerary()))));
+                  },
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 85.0,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                MaterialButton(
+                  child: Text(
+                    "LogOut",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  color: Colors.blue,
+                  onPressed: () {
+                    BlocProvider.of<AuthBloc>(context).add(SignOutEvent());
                   },
                 ),
               ],
