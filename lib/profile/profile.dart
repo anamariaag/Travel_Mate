@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:travel_mate/edit_profile.dart';
+import 'package:travel_mate/profile/edit_profile.dart';
 
 class Profile extends StatelessWidget {
   Profile({Key? key});

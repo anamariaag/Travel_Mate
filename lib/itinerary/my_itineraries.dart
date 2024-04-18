@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:travel_mate/new_itinerary.dart';
+import 'package:travel_mate/itinerary/new_itinerary.dart';
 
 class MyItineraries extends StatelessWidget {
   MyItineraries({Key? key});
