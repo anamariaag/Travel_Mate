@@ -14,3 +14,10 @@ class AnonymousAuthEvent extends AuthEvent {}
 class GoogleAuthEvent extends AuthEvent {}
 
 class SignOutEvent extends AuthEvent {}
+
+class SignInEvent extends AuthEvent {
+  final String email;
+  final String password;
+
+  SignInEvent({required this.email, required this.password});
+}
