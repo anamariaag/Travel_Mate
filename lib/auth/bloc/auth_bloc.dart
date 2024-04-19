@@ -14,6 +14,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AnonymousAuthEvent>(_authAnonymous);
     on<GoogleAuthEvent>(_authUser);
     on<SignOutEvent>(_signOut);
+    on<SignInEvent>(_signIn);
   }
 
   FutureOr<void> _authVerfication(event, emit) {
@@ -46,5 +47,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   FutureOr<void> _authAnonymous(event, emit) async {
     await FirebaseAuth.instance.signInAnonymously();
+  }
+
+  FutureOr<void> _signIn(SignInEvent event, emit) async {
+    emit(AuthAwaitingState());
+    try {
+      // Sign in with email and password
+      await _autRepo.signInWithEmailAndPassword(event.email, event.password);
+      emit(AuthSuccessState());
+    } catch (e) {
+      print("Error authenticating with email and password: $e");
+      emit(AuthErrorState());
+    }
   }
 }

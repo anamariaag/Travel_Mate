@@ -21,6 +21,17 @@ class UserAuthRepository {
     await _auth.signOut();
   }
 
+  Future<void> signInWithEmailAndPassword(String email, String password) async {
+    try {
+      // Sign in with email and password
+      await _auth.signInWithEmailAndPassword(email: email, password: password);
+    } catch (e) {
+      // Handle sign in errors
+      print("Failed to sign in: $e");
+      throw e; // Propagate the error back to the caller for handling
+    }
+  }
+
   Future<void> signInWithGoogle() async {
     // set up Google sign in
     final googleUser = await _googleSignIn.signIn();
