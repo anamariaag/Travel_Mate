@@ -9,7 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  intl: ^0.19.0
+  intl: ^0.18.1
   latlong2: ^0.8.0
   cupertino_icons: ^1.0.2
   flutter_map: ^4.0.0
@@ -25,10 +25,9 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   #flutter_lints: ^2.0.0
-flutter:    
+flutter:
   uses-material-design: true
   assets:
     - assets/login_plane.png
     - assets/avatar.png
     - assets/google.png
-

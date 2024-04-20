@@ -21,3 +21,10 @@ class SignInEvent extends AuthEvent {
 
   SignInEvent({required this.email, required this.password});
 }
+
+class RegisterEvent extends AuthEvent {
+  final String email;
+  final String password;
+
+  RegisterEvent({required this.email, required this.password});
+}

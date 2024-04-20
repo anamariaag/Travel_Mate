@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:travel_mate/auth/bloc/auth_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:travel_mate/register/register.dart';
 
 void main() => runApp(Login());
 
@@ -130,7 +131,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         backgroundColor: MaterialStateProperty.all(
                             Color.fromARGB(255, 117, 47, 123))),
                     onPressed: () {
-                      // Implement registration functionality
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: ((context) => (Register()))));
                     },
                     child: Text(
                       'Register',

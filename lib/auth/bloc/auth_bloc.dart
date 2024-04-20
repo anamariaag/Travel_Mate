@@ -15,6 +15,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<GoogleAuthEvent>(_authUser);
     on<SignOutEvent>(_signOut);
     on<SignInEvent>(_signIn);
+    on<RegisterEvent>(_register);
   }
 
   FutureOr<void> _authVerfication(event, emit) {
@@ -57,6 +58,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(AuthSuccessState());
     } catch (e) {
       print("Error authenticating with email and password: $e");
+      emit(AuthErrorState());
+    }
+  }
+
+  FutureOr<void> _register(RegisterEvent event, emit) async {
+    emit(AuthAwaitingState());
+    try {
+      await _autRepo.registerWithEmailAndPassword(event.email, event.password);
+      emit(RegisterSuccessState());
+      emit(AuthSuccessState());
+    } catch (e) {
+      print("Error during registration: $e");
       emit(AuthErrorState());
     }
   }

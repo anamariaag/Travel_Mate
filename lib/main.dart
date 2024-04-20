@@ -37,6 +37,8 @@ class MyApp extends StatelessWidget {
         listener: (context, state) {
           if (state is AuthErrorState) {
             print("Error al autenticar");
+          } else if (state is RegisterSuccessState) {
+            Navigator.of(context).pop();
           }
         },
         builder: (context, state) {
