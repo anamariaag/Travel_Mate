@@ -21,7 +21,7 @@ class ItineraryDetails extends StatelessWidget {
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
-          'Itinerary Details for  ${itinerary!.title}',
+          '${itinerary!.title}',
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Colors.blue,
@@ -96,29 +96,28 @@ class _ItineraryDetailsScreenState extends State<ItineraryDetailsScreen> {
                 final place = widget.itinerary.places[index];
                 return ListTile(
                     title: Row(
-                      children: [
-                        Flexible(
-                            child: Text(
-                                "${DateFormat('HH:mm a, dd/MM').format(place['start'].toDate())}")),
-                        Expanded(child: Text('${place['title']}')),
-                        Expanded(
-                            child: ElevatedButton(
-                          onPressed: () =>
-                              _showMapDialog(context, place['location']),
-                          child: Icon(Icons.place),
-                        )),
-                        Checkbox(
-                          activeColor: Colors.blue,
-                          value: _acceptTerms,
-                          onChanged: (value) {
-                            setState(() {
-                              _acceptTerms = value!;
-                            });
-                          },
-                        ),
-                      ],
+                  children: [
+                    Flexible(
+                        child: Text(
+                            "${DateFormat('HH:mm a, dd/MM').format(place['start'].toDate())}")),
+                    Expanded(child: Text('${place['title']}')),
+                    Expanded(
+                        child: ElevatedButton(
+                      onPressed: () =>
+                          _showMapDialog(context, place['location']),
+                      child: Icon(Icons.place),
+                    )),
+                    Checkbox(
+                      activeColor: Colors.blue,
+                      value: _acceptTerms,
+                      onChanged: (value) {
+                        setState(() {
+                          _acceptTerms = value!;
+                        });
+                      },
                     ),
-                    leading: Icon(Icons.place));
+                  ],
+                ));
               },
             )),
         SizedBox(height: 20),
@@ -155,7 +154,7 @@ void _showMapDialog(BuildContext context, GeoPoint geoPoint) {
           width: double.maxFinite,
           height: 300,
           child: FlutterMap(
-              options: MapOptions(center: latLng, zoom: 13.0),
+              options: MapOptions(center: latLng, zoom: 16.0),
               children: [
                 TileLayer(
                     urlTemplate:
