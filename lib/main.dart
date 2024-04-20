@@ -4,6 +4,8 @@ import 'package:travel_mate/auth/bloc/auth_bloc.dart';
 import 'package:travel_mate/firebase_options.dart';
 import 'package:travel_mate/home/home_page.dart';
 import 'package:flutter/material.dart';
+import 'package:travel_mate/itinerary/bloc/itinerary_bloc.dart';
+import 'package:travel_mate/itinerary/itinerary_repository.dart';
 import 'package:travel_mate/login/login.dart';
 
 void main() async {
@@ -19,6 +21,7 @@ void main() async {
         BlocProvider(
           create: (context) => AuthBloc()..add(VerifyAuthEvent()),
         ),
+        BlocProvider(create: (_) => ItineraryBloc(ItineraryRepository())),
       ],
       child: MyApp(),
     ),
