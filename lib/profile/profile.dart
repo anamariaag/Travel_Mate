@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:travel_mate/auth/bloc/auth_bloc.dart';
 import 'package:travel_mate/profile/edit_profile.dart';
 
 class Profile extends StatelessWidget {
@@ -64,18 +66,36 @@ class Profile extends StatelessWidget {
               subtitle: Text("DD/MM/YYYY"),
             ),
             SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: ((context) => (EditProfilePage()))));
-              },
-              child: Text(
-                'Edit Profile',
-                style: TextStyle(color: Colors.white),
-              ),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue,
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: ((context) => (EditProfilePage()))));
+                  },
+                  child: Text(
+                    'Edit Profile',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue,
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    BlocProvider.of<AuthBloc>(context).add(SignOutEvent());
+                    Navigator.of(context).pop();
+                  },
+                  child: Text(
+                    'Log out',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue,
+                  ),
+                )
+              ],
             ),
           ],
         ),
