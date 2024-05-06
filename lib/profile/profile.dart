@@ -13,6 +13,15 @@ class Profile extends StatelessWidget {
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Colors.blue,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back,
+              color:
+                  Colors.white), // Color específico para el botón de retroceso
+          onPressed: () {
+            Navigator.pop(
+                context); // Esta acción permite regresar a la pantalla anterior
+          },
+        ),
       ),
       body: Padding(
         padding: EdgeInsets.all(25.0),
@@ -23,7 +32,7 @@ class Profile extends StatelessWidget {
               radius: 50,
               backgroundImage: AssetImage('assets/avatar.png'),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 10),
             Text(
               "Username",
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
@@ -33,7 +42,7 @@ class Profile extends StatelessWidget {
               "user@example.com",
               style: TextStyle(fontSize: 18, color: Colors.grey),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 10),
             Text(
               "Personal Information",
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
@@ -54,7 +63,7 @@ class Profile extends StatelessWidget {
               title: Text("Date of Birth"),
               subtitle: Text("DD/MM/YYYY"),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 10),
             ElevatedButton(
               onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute(

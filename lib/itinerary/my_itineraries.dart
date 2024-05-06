@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:travel_mate/itinerary/bloc/itinerary_bloc.dart';
 import 'package:travel_mate/itinerary/itinerary_details.dart';
 import 'package:travel_mate/itinerary/new_itinerary.dart';
+import 'package:travel_mate/profile/profile.dart';
 
 class MyItineraries extends StatelessWidget {
   MyItineraries({Key? key});
@@ -21,12 +22,24 @@ class MyItineraries extends StatelessWidget {
     context.read<ItineraryBloc>().add(LoadItineraries());
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          "My Itineraries",
-          style: TextStyle(color: Colors.white),
-        ),
-        backgroundColor: Colors.blue,
-      ),
+          title: Text(
+            "My Itineraries",
+            style: TextStyle(color: Colors.white),
+          ),
+          backgroundColor: Colors.blue,
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(
+                Icons.account_circle,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                // Aquí manejas lo que sucede cuando se presiona el botón.
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: ((context) => (Profile()))));
+              },
+            ),
+          ]),
       body: BlocBuilder<ItineraryBloc, ItineraryState>(
         builder: (context, state) {
           if (state is ItinerariesLoading) {
