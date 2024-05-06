@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(NewItinerary());
-
 class NewItinerary extends StatelessWidget {
   NewItinerary({super.key});
 

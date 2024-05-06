@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:travel_mate/itinerary/bloc/itinerary_bloc.dart';
 import 'package:travel_mate/itinerary/itinerary_details.dart';
-import 'package:travel_mate/itinerary/itinerary_repository.dart';
 import 'package:travel_mate/itinerary/new_itinerary.dart';
 
 class MyItineraries extends StatelessWidget {

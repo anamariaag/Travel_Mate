@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:travel_mate/auth/bloc/auth_bloc.dart';
 
-void main() => runApp(Login());
-
 class Login extends StatelessWidget {
   Login({super.key});
 

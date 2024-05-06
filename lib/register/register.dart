@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(Register());
-
 class Register extends StatelessWidget {
   Register({super.key});
 
