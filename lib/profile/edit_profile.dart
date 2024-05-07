@@ -19,6 +19,15 @@ class _EditProfilePageState extends State<EditProfilePage> {
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Colors.blue,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back,
+              color:
+                  Colors.white), // Color específico para el botón de retroceso
+          onPressed: () {
+            Navigator.pop(
+                context); // Esta acción permite regresar a la pantalla anterior
+          },
+        ),
       ),
       body: Padding(
         padding: EdgeInsets.all(25.0),

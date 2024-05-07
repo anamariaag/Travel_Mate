@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Itinerary {
   final String id;
+  final int duration;
   final String title;
   final String description;
   final DateTime start;
@@ -10,6 +11,7 @@ class Itinerary {
 
   Itinerary(
       {required this.id,
+      required this.duration,
       required this.title,
       required this.description,
       required this.start,
@@ -26,6 +28,7 @@ class Itinerary {
     }
     return Itinerary(
         id: snapshot.id,
+        duration: snapshot['duration'],
         title: snapshot['title'],
         description: snapshot['description'],
         start: snapshot['start'].toDate(),

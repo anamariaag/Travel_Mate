@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:travel_mate/auth/bloc/auth_bloc.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:travel_mate/register/register.dart';
-
-void main() => runApp(Login());
 
 class Login extends StatelessWidget {
   Login({super.key});
@@ -13,10 +10,6 @@ class Login extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
         title: Text(
           'Login',
           style: TextStyle(color: Colors.white),
