@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:travel_mate/itinerary/provider/new_itineray_picker_provider.dart';
+import 'package:travel_mate/itinerary/provider/new_itineray_provider.dart';
 import 'package:provider/provider.dart';
 // void main() => runApp(NewItinerary());
 
@@ -223,6 +223,7 @@ class _NewItinerarScreenState extends State<NewItinerarScreen> {
               value: _selectedCity,
               onChanged: (String? newValue) {
                 setState(() {
+                  _selectedCity = null;
                   _selectedCity = newValue;
                 });
               },
