@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:intl/intl.dart';
 import 'package:travel_mate/itinerary/itinerary.dart';
@@ -156,7 +157,7 @@ class _ItineraryDetailsScreenState extends State<ItineraryDetailsScreen> {
                   ),
                   title: Text('${place['title']}'),
                   subtitle: Text(
-                    "${DateFormat('HH:mm a').format(place['start'].toDate())} - ${DateFormat('HH:mm a').format(place['end'].toDate())}",
+                    "${DateFormat('HH:mm a').format(place['start'].toDate())}",
                     softWrap: true,
                     textAlign: TextAlign.left,
                   ),
@@ -191,34 +192,100 @@ class _ItineraryDetailsScreenState extends State<ItineraryDetailsScreen> {
   }
 }
 
-void _showMapDialog(BuildContext context, GeoPoint geoPoint) {
+void _showMapDialog(BuildContext context, GeoPoint geoPoint) async {
+  LocationPermission permission = await Geolocator.requestPermission();
+  Position position = await Geolocator.getCurrentPosition();
+
+  LatLng userLatLng = LatLng(position.latitude, position.longitude);
   LatLng latLng = LatLng(geoPoint.latitude, geoPoint.longitude);
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: Text('Location on Map'),
-        content: Container(
-          width: double.maxFinite,
-          height: 300,
-          child: FlutterMap(
-              options: MapOptions(center: latLng, zoom: 16.0),
-              children: [
-                TileLayer(
-                    urlTemplate:
-                        'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-                    subdomains: ['a', 'b', 'c']),
-              ]),
-        ),
-        actions: <Widget>[
-          TextButton(
-            child: Text('Close'),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
+  if (permission == LocationPermission.always ||
+      permission == LocationPermission.whileInUse) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Location on Map'),
+          content: Container(
+            width: double.maxFinite,
+            height: 300,
+            child: FlutterMap(
+                options: MapOptions(center: latLng, zoom: 16.0),
+                children: [
+                  TileLayer(
+                      urlTemplate:
+                          'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                      subdomains: ['a', 'b', 'c']),
+                  MarkerLayer(markers: [
+                    Marker(
+                      width: 80.0,
+                      height: 80.0,
+                      point: latLng,
+                      builder: (ctx) => Container(
+                        child: Icon(Icons.location_on, color: Colors.red),
+                      ),
+                    ),
+                    Marker(
+                      width: 80.0,
+                      height: 80.0,
+                      point: userLatLng,
+                      builder: (ctx) => Container(
+                        child:
+                            Icon(Icons.person_pin_circle, color: Colors.blue),
+                      ),
+                    ),
+                  ])
+                ]),
           ),
-        ],
-      );
-    },
-  );
+          actions: <Widget>[
+            TextButton(
+              child: Text('Close'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  } else if (permission == LocationPermission.denied ||
+      permission == LocationPermission.deniedForever) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Location on Map'),
+          content: Container(
+            width: double.maxFinite,
+            height: 300,
+            child: FlutterMap(
+                options: MapOptions(center: latLng, zoom: 16.0),
+                children: [
+                  TileLayer(
+                      urlTemplate:
+                          'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                      subdomains: ['a', 'b', 'c']),
+                  MarkerLayer(markers: [
+                    Marker(
+                      width: 80.0,
+                      height: 80.0,
+                      point: latLng,
+                      builder: (ctx) => Container(
+                        child: Icon(Icons.location_on, color: Colors.red),
+                      ),
+                    )
+                  ])
+                ]),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Close'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 }
