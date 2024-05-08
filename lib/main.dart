@@ -3,10 +3,10 @@ import 'package:provider/provider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:travel_mate/auth/bloc/auth_bloc.dart';
 import 'package:travel_mate/firebase_options.dart';
-import 'package:travel_mate/home/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:travel_mate/itinerary/bloc/itinerary_bloc.dart';
 import 'package:travel_mate/itinerary/itinerary_repository.dart';
+import 'package:travel_mate/itinerary/my_itineraries.dart';
 import 'package:travel_mate/login/login.dart';
 import 'package:travel_mate/profile/profile_provider.dart';
 
@@ -58,7 +58,7 @@ class MyApp extends StatelessWidget {
         },
         builder: (context, state) {
           if (state is AuthSuccessState) {
-            return HomePage();
+            return MyItineraries();
           } else if (state is UnAuthState ||
               state is AuthErrorState ||
               state is SignOutSuccessState ||

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:travel_mate/auth/bloc/auth_bloc.dart';
 import 'package:travel_mate/profile/edit_profile.dart';
 import 'package:travel_mate/profile/profile_provider.dart';
 import 'package:provider/provider.dart';
@@ -30,6 +32,15 @@ class _ProfileState extends State<Profile> {
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Colors.blue,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back,
+              color:
+                  Colors.white), // Color específico para el botón de retroceso
+          onPressed: () {
+            Navigator.pop(
+                context); // Esta acción permite regresar a la pantalla anterior
+          },
+        ),
       ),
       body: Consumer<ProfileProvider>(
         builder: (context, profileProvider, child) {
@@ -48,26 +59,30 @@ class _ProfileState extends State<Profile> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  CircleAvatar(
-                    radius: 50,
-                    backgroundImage: userData.profileImageUrl.isNotEmpty
-                        ? NetworkImage(userData.profileImageUrl)
-                        : AssetImage('assets/avatar.png') as ImageProvider,
-                  ),
-                  SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: () async {
-                      await profileProvider.takePicture();
-                    },
-                    child: Text(
-                      'Edit Picture',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue,
+                  Center(
+                    child: CircleAvatar(
+                      radius: 50,
+                      backgroundImage: userData.profileImageUrl.isNotEmpty
+                          ? NetworkImage(userData.profileImageUrl)
+                          : AssetImage('assets/avatar.png') as ImageProvider,
                     ),
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 10),
+                  Center(
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        await profileProvider.takePicture();
+                      },
+                      child: Text(
+                        'Edit Picture',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blue,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 10),
                   Text(
                     userData.email.split('@').first,
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
@@ -77,7 +92,7 @@ class _ProfileState extends State<Profile> {
                     userData.email,
                     style: TextStyle(fontSize: 18, color: Colors.grey),
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 10),
                   Text(
                     "Personal Information",
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
@@ -99,19 +114,38 @@ class _ProfileState extends State<Profile> {
                     title: Text("Date of Birth"),
                     subtitle: Text(userData.dob),
                   ),
-                  SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: ((context) => (EditProfilePage()))));
-                    },
-                    child: Text(
-                      'Edit Profile',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue,
-                    ),
+                  SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: ((context) => (EditProfilePage()))));
+                        },
+                        child: Text(
+                          'Edit Profile',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blue,
+                        ),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          BlocProvider.of<AuthBloc>(context)
+                              .add(SignOutEvent());
+                          Navigator.of(context).pop();
+                        },
+                        child: Text(
+                          'Log out',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blue,
+                        ),
+                      )
+                    ],
                   ),
                 ],
               ),
