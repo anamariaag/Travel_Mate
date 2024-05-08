@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:travel_mate/itinerary/bloc/itinerary_bloc.dart';
 import 'package:travel_mate/itinerary/itinerary_repository.dart';
 import 'package:travel_mate/login/login.dart';
+import 'package:provider/provider.dart';
+import 'package:travel_mate/itinerary/provider/new_itineray_picker_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,6 +24,9 @@ void main() async {
           create: (context) => AuthBloc()..add(VerifyAuthEvent()),
         ),
         BlocProvider(create: (_) => ItineraryBloc(ItineraryRepository())),
+        ChangeNotifierProvider(
+          create: (context) => NewItineraryProvider(),
+        ),
       ],
       child: MyApp(),
     ),

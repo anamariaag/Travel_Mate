@@ -1,6 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-void main() => runApp(NewItinerary());
+import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
+import 'package:travel_mate/itinerary/provider/new_itineray_picker_provider.dart';
+import 'package:provider/provider.dart';
+// void main() => runApp(NewItinerary());
 
 class NewItinerary extends StatelessWidget {
   NewItinerary({super.key});
@@ -32,12 +37,29 @@ class NewItinerarScreen extends StatefulWidget {
 }
 
 class _NewItinerarScreenState extends State<NewItinerarScreen> {
-  final TextEditingController destinyController = TextEditingController();
-  final TextEditingController daysController = TextEditingController();
-  List<String> selectedCategories = [];
+  @override
+  void initState() {
+    super.initState();
+    final countryProvider =
+        Provider.of<NewItineraryProvider>(context, listen: false);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<NewItineraryProvider>().clearDates();
+      countryProvider.countryList();
+    });
+  }
 
+  final TextEditingController destinationController = TextEditingController();
+  final TextEditingController tripnameController = TextEditingController();
+  final TextEditingController tripdescriptionController =
+      TextEditingController();
+  final TextEditingController daysController = TextEditingController();
+
+  List<String> selectedCategories = [];
   int budget = 0;
   int days = 0;
+
+  String? _selectedCountry;
+  String? _selectedCity;
 
   void handleCategorySelection(String category, bool value) {
     setState(() {
@@ -53,26 +75,32 @@ class _NewItinerarScreenState extends State<NewItinerarScreen> {
     "Deportes",
     "Diversión",
     "Animales",
-    "Comida",
     "Naturaleza",
     "Arte",
-    "Tecnología",
     "Música",
   ];
 
   @override
   Widget build(BuildContext context) {
+    DateTime? fromDate = context.watch<NewItineraryProvider>().startDate;
+    String? onlyDateFrom =
+        fromDate != null ? DateFormat('dd/MM/yy').format(fromDate) : null;
+
+    DateTime? toDate = context.watch<NewItineraryProvider>().endDate;
+    String? onlyDateEnd =
+        toDate != null ? DateFormat('dd/MM/yy').format(toDate) : null;
+
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(15.0),
         child: ListView(children: [
           SizedBox(
-            height: 20.0,
+            height: 10.0,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Text("Ingresa tu lugar de destino",
+              Text("Name of the trip",
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
             ],
           ),
@@ -86,7 +114,7 @@ class _NewItinerarScreenState extends State<NewItinerarScreen> {
                 width: 300.0,
                 child: Container(
                   child: TextField(
-                    controller: destinyController,
+                    controller: tripnameController,
                     decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         contentPadding: EdgeInsets.all(8.0)),
@@ -103,12 +131,129 @@ class _NewItinerarScreenState extends State<NewItinerarScreen> {
             ],
           ),
           SizedBox(
+            height: 12.0,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text("Short description",
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            ],
+          ),
+          SizedBox(
+            height: 12.0,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              SizedBox(
+                width: 300.0,
+                child: Container(
+                  child: TextField(
+                    controller: tripdescriptionController,
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        contentPadding: EdgeInsets.all(8.0)),
+                  ),
+                ),
+              ),
+              SizedBox(
+                width: 15.0,
+              ),
+              Icon(
+                Icons.document_scanner_rounded,
+                size: 35.0,
+              )
+            ],
+          ),
+          SizedBox(
+            height: 12.0,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text("Select trip destination",
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            ],
+          ),
+          SizedBox(
+            height: 12.0,
+          ),
+          DropdownButton<String>(
+            isExpanded: true,
+            hint: Text("Select a Country"),
+            value: _selectedCountry,
+            onChanged: (String? newValue) {
+              setState(() {
+                _selectedCountry = newValue;
+                _selectedCity = null;
+              });
+              context
+                  .read<NewItineraryProvider>()
+                  .cityList(_selectedCountry ?? "");
+            },
+            items: context.watch<NewItineraryProvider>().isCountriesLoading
+                ? [
+                    DropdownMenuItem(
+                        value: '',
+                        child: Row(
+                          children: [
+                            CircularProgressIndicator(),
+                            SizedBox(width: 8),
+                            Text("Loading..."),
+                          ],
+                        ))
+                  ]
+                : (context.watch<NewItineraryProvider>().countries ?? [])
+                    .map((country) {
+                    return DropdownMenuItem<String>(
+                      value: country,
+                      child: Text(country),
+                    );
+                  }).toList(), // Populate the dropdown with country names
+          ),
+          SizedBox(
+            height: 12.0,
+          ),
+          SizedBox(
+            width: 200.0,
+            child: DropdownButton<String>(
+              isExpanded: true,
+              hint: Text("Select a City"),
+              value: _selectedCity,
+              onChanged: (String? newValue) {
+                setState(() {
+                  _selectedCity = newValue;
+                });
+              },
+              items: context.watch<NewItineraryProvider>().isCitiesLoading
+                  ? [
+                      DropdownMenuItem(
+                          value: '',
+                          child: Row(
+                            children: [
+                              CircularProgressIndicator(),
+                              SizedBox(width: 8),
+                              Text("Loading..."),
+                            ],
+                          ))
+                    ]
+                  : (context.watch<NewItineraryProvider>().cities ?? [])
+                      .map((city) {
+                      return DropdownMenuItem<String>(
+                        value: city,
+                        child: Text(city),
+                      );
+                    }).toList(), // Populate the dropdown with country names
+            ),
+          ),
+          SizedBox(
             height: 20.0,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Text("Define tu presupuesto",
+              Text("Define budget",
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
             ],
           ),
@@ -158,28 +303,31 @@ class _NewItinerarScreenState extends State<NewItinerarScreen> {
             height: 20.0,
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              SizedBox(
-                width: 150.0,
-                child: Container(
-                  child: TextField(
-                    controller: daysController,
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                        suffixText: " días",
-                        border: OutlineInputBorder(),
-                        contentPadding: EdgeInsets.all(8.0)),
-                  ),
+              Expanded(
+                child: Column(
+                  children: [
+                    ListTile(
+                      title: Text(
+                        "Fecha de inicio: ${fromDate != null ? onlyDateFrom : 'No seleccionada'}",
+                      ),
+                      trailing: Icon(Icons.calendar_today),
+                      onTap: () => context
+                          .read<NewItineraryProvider>()
+                          .selectStartDate(context),
+                    ),
+                    ListTile(
+                      title: Text(
+                        "Fecha de fin: ${toDate != null ? onlyDateEnd : 'No seleccionada'}",
+                      ),
+                      trailing: Icon(Icons.calendar_today),
+                      onTap: () => context
+                          .read<NewItineraryProvider>()
+                          .selectEndDate(context),
+                    ),
+                  ],
                 ),
               ),
-              SizedBox(
-                width: 15.0,
-              ),
-              Icon(
-                Icons.calendar_month,
-                size: 35.0,
-              )
             ],
           ),
           SizedBox(
@@ -188,7 +336,7 @@ class _NewItinerarScreenState extends State<NewItinerarScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Text("Intereses y gustos",
+              Text("Likes and Interests",
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
             ],
           ),
@@ -207,6 +355,14 @@ class _NewItinerarScreenState extends State<NewItinerarScreen> {
                 ),
             ],
           ),
+          ElevatedButton(
+              onPressed: () {
+                // print(context.watch<NewItineraryProvider>().countries);
+              },
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [Text("Create New Trip")],
+              ))
         ]),
       ),
     );

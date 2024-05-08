@@ -3,10 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:travel_mate/auth/bloc/auth_bloc.dart';
 import 'package:travel_mate/itinerary/my_itineraries.dart';
 import 'package:travel_mate/itinerary/new_itinerary.dart';
+import 'package:travel_mate/itinerary/provider/new_itineray_picker_provider.dart';
 import 'package:travel_mate/profile/profile.dart';
 import 'package:travel_mate/register/register.dart';
 
-void main() => runApp(const HomePage());
+// void main() => runApp(const HomePage());
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});

@@ -4,7 +4,7 @@ import 'package:travel_mate/auth/bloc/auth_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:travel_mate/register/register.dart';
 
-void main() => runApp(Login());
+// void main() => runApp(Login());
 
 class Login extends StatelessWidget {
   Login({super.key});
