@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:travel_mate/auth/bloc/auth_bloc.dart';
 
 class Register extends StatelessWidget {
   Register({super.key});
@@ -41,6 +43,11 @@ class _RegisterFormState extends State<RegisterForm> {
     'USA',
     'Canada'
   ]; // Lista de países
+
+  void registerWithEmailAndPassword(BuildContext context) {
+    context.read<AuthBloc>().add(RegisterEvent(
+        email: _emailController.text, password: _passwordController.text));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -180,11 +187,12 @@ class _RegisterFormState extends State<RegisterForm> {
             ElevatedButton(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('Successfull register!'),
-                    ),
-                  );
+                  registerWithEmailAndPassword(context);
+                  // ScaffoldMessenger.of(context).showSnackBar(
+                  //   SnackBar(
+                  //     content: Text('Successfull register!'),
+                  //   ),
+                  // );
                 }
               },
               child: Text(

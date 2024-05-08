@@ -61,22 +61,6 @@ class HomePage extends StatelessWidget {
               children: [
                 MaterialButton(
                   child: Text(
-                    "Register",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  color: Colors.blue,
-                  onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: ((context) => (Register()))));
-                  },
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                MaterialButton(
-                  child: Text(
                     "New Itinerary",
                     style: TextStyle(color: Colors.white),
                   ),

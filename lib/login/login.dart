@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:travel_mate/auth/bloc/auth_bloc.dart';
+import 'package:travel_mate/register/register.dart';
 
 class Login extends StatelessWidget {
   Login({super.key});
@@ -30,6 +31,11 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+
+  void signIn(BuildContext context, String email, String password) {
+    // Dispatch the SignInWithEmailEvent with email and password
+    context.read<AuthBloc>().add(SignInEvent(email: email, password: password));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -104,6 +110,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             const Color.fromARGB(255, 47, 123, 49))),
                     onPressed: () {
                       // Implement login functionality
+                      signIn(context, usernameController.text.trim(),
+                          passwordController.text.trim());
                     },
                     child: Text(
                       'Login',
@@ -116,7 +124,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         backgroundColor: MaterialStateProperty.all(
                             Color.fromARGB(255, 117, 47, 123))),
                     onPressed: () {
-                      // Implement registration functionality
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: ((context) => (Register()))));
                     },
                     child: Text(
                       'Register',
