@@ -22,3 +22,5 @@ class AuthAwaitingState extends AuthState {}
 class RegisterState extends AuthState {}
 
 class RegisterSuccessState extends AuthState {}
+
+class RegisterErrorState extends AuthState {}

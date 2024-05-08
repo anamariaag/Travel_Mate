@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:travel_mate/auth/bloc/auth_bloc.dart';
 
-// void main() => runApp(Register());
-
 class Register extends StatelessWidget {
   Register({super.key});
 
@@ -37,6 +35,7 @@ class _RegisterFormState extends State<RegisterForm> {
   final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _dobController = TextEditingController();
   bool _acceptTerms = false;
   String _selectedCountry = 'Seleccionar País';
   List<String> _countries = [
@@ -46,9 +45,15 @@ class _RegisterFormState extends State<RegisterForm> {
     'Canada'
   ]; // Lista de países
 
-  void registerWithEmailAndPassword(BuildContext context) {
+  void register(BuildContext context) {
     context.read<AuthBloc>().add(RegisterEvent(
-        email: _emailController.text, password: _passwordController.text));
+        email: _emailController.text,
+        password: _passwordController.text,
+        firstName: _firstNameController.text,
+        lastName: _lastNameController.text,
+        country: _selectedCountry,
+        dob: _dobController.text,
+        profileImageUrl: ''));
   }
 
   @override
@@ -142,6 +147,39 @@ class _RegisterFormState extends State<RegisterForm> {
                 return null;
               },
             ),
+            TextFormField(
+              controller: _dobController,
+              onTap: () async {
+                DateTime? pickedDate = await showDatePicker(
+                  context: context,
+                  initialDate: DateTime.now(),
+                  firstDate: DateTime(1900),
+                  lastDate: DateTime.now(),
+                );
+                if (pickedDate != null) {
+                  setState(() {
+                    _dobController.text =
+                        "${pickedDate.day}/${pickedDate.month}/${pickedDate.year}";
+                  });
+                }
+              },
+              decoration: InputDecoration(
+                labelText: 'Fecha de Nacimiento',
+                labelStyle: TextStyle(color: Colors.blue),
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.blue),
+                ),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.blue),
+                ),
+              ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Por favor ingresa tu fecha de nacimiento';
+                }
+                return null;
+              },
+            ),
             DropdownButtonFormField<String>(
               value: _selectedCountry,
               items: _countries.map((String country) {
@@ -189,12 +227,7 @@ class _RegisterFormState extends State<RegisterForm> {
             ElevatedButton(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
-                  registerWithEmailAndPassword(context);
-                  // ScaffoldMessenger.of(context).showSnackBar(
-                  //   SnackBar(
-                  //     content: Text('Successfull register!'),
-                  //   ),
-                  // );
+                  register(context);
                 }
               },
               child: Text(
@@ -202,8 +235,7 @@ class _RegisterFormState extends State<RegisterForm> {
                 style: TextStyle(color: Colors.white),
               ),
               style: ElevatedButton.styleFrom(
-                backgroundColor:
-                    Colors.blue, // Cambia el color del botón a azul
+                backgroundColor: Colors.blue,
               ),
             ),
           ],
@@ -218,6 +250,7 @@ class _RegisterFormState extends State<RegisterForm> {
     _lastNameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
+    _dobController.dispose();
     super.dispose();
   }
 }
