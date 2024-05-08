@@ -63,14 +63,21 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   FutureOr<void> _register(RegisterEvent event, emit) async {
-    emit(AuthAwaitingState());
     try {
       await _autRepo.registerWithEmailAndPassword(event.email, event.password);
+      await _autRepo.createUserDocument(
+        FirebaseAuth.instance.currentUser!.uid,
+        event.email,
+        event.firstName,
+        event.lastName,
+        event.country,
+        event.dob,
+        event.profileImageUrl,
+      );
       emit(RegisterSuccessState());
-      emit(AuthSuccessState());
     } catch (e) {
       print("Error during registration: $e");
-      emit(AuthErrorState());
+      emit(RegisterErrorState());
     }
   }
 }

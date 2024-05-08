@@ -20,11 +20,22 @@ dependencies:
   google_sign_in: ^6.2.1
   cloud_firestore: ^4.16.1
   firebase_ui_firestore: ^1.6.2
+  image_picker: ^1.1.0
+  firebase_storage: ^11.7.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: ^0.13.1
   #flutter_lints: ^2.0.0
+
+flutter_launcher_icons:
+  android: "ic_launcher"
+  image_path_ios: "assets/icon.png"
+  min_sdk_android: 24
+  ios: true
+  image_path: "assets/icon.png"
+
 flutter:
   uses-material-design: true
   assets:
