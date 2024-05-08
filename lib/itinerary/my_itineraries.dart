@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:travel_mate/itinerary/bloc/itinerary_bloc.dart';
@@ -20,6 +21,7 @@ class MyItineraries extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     context.read<ItineraryBloc>().add(LoadItineraries());
+    print("clave: " + FirebaseAuth.instance.currentUser!.uid);
     return Scaffold(
       appBar: AppBar(
           title: Text(

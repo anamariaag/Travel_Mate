@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:travel_mate/itinerary/itinerary.dart';
 
 class ItineraryRepository {
@@ -11,8 +12,10 @@ class ItineraryRepository {
   Future<List<Itinerary>> getItineraries() async {
     try {
       // Accedemos a la colección 'itinerary'
-      QuerySnapshot querySnapshot =
-          await firestore.collection('itinerary').get();
+      QuerySnapshot querySnapshot = await firestore
+          .collection('itinerary')
+          .where("userId", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+          .get();
       print("itinerarios");
       print(querySnapshot);
       // Convertimos los resultados en una lista de objetos Itinerary
@@ -30,6 +33,7 @@ class ItineraryRepository {
     try {
       // Añadimos el nuevo itinerario a la colección 'itinerary'
       await firestore.collection('itinerary').add({
+        'userId': FirebaseAuth.instance.currentUser!.uid,
         'id': itinerary.id,
         'title': itinerary.title,
         'description': itinerary.description,
