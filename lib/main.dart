@@ -16,6 +16,8 @@ ThemeData buildAppTheme() {
   return ThemeData(
       // Define the base color scheme
       colorScheme: ColorScheme(
+        background: AppColors.backgroundColor,
+        onBackground: AppColors.onBackgroundColor,
         primary: AppColors.primaryColor,
         secondary: AppColors.secondaryColor,
         surface: AppColors.surfaceColor,

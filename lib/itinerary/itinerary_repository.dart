@@ -16,8 +16,6 @@ class ItineraryRepository {
           .collection('itinerary')
           .where("userId", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
           .get();
-      print("itinerarios");
-      print(querySnapshot);
       // Convertimos los resultados en una lista de objetos Itinerary
       return querySnapshot.docs
           .map((doc) => Itinerary.fromSnapshot(doc))
@@ -33,14 +31,13 @@ class ItineraryRepository {
     try {
       // Añadimos el nuevo itinerario a la colección 'itinerary'
       await firestore.collection('itinerary').add({
-        'userId': FirebaseAuth.instance.currentUser!.uid,
-        'id': itinerary.id,
+        'userId': itinerary.id,
         'title': itinerary.title,
         'description': itinerary.description,
-        'start': itinerary.start,
-        'end': itinerary.end,
-        'places': itinerary
-            .places // Asegúrate de que el tipo de fecha sea compatible con Firestore
+        'start': Timestamp.fromDate(itinerary.start),
+        'end': Timestamp.fromDate(itinerary.end),
+        'places': itinerary.places,
+        'duration': itinerary.duration,
       });
     } catch (e) {
       throw Exception('Failed to add itinerary: $e');

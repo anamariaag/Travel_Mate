@@ -8,17 +8,19 @@ class NewItineraryProvider with ChangeNotifier {
   DateTime? _endDate;
   List<String>? _countries;
   List<String>? _cities;
+  List<Map<String, dynamic>>? _gptItinerary;
   bool _isCountriesLoading = false;
   bool _isCitiesLoading = false;
+  bool _isgptLoading = false;
 
   DateTime? get startDate => _startDate;
   DateTime? get endDate => _endDate;
   List<String>? get countries => _countries;
   List<String>? get cities => _cities;
+  List<Map<String, dynamic>>? get gptItinerary => _gptItinerary;
   bool get isCountriesLoading => _isCountriesLoading;
   bool get isCitiesLoading => _isCitiesLoading;
-
-  String gptPrompt = """ """;
+  bool get isgptLoading => _isgptLoading;
 
   Future<void> selectStartDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -90,6 +92,74 @@ class NewItineraryProvider with ChangeNotifier {
       _cities = List<String>.from(jsonDecode(response.body));
 
       _isCitiesLoading = false;
+      notifyListeners(); // Notify that loading finished
+    } else {
+      print("No llegué al endpoint");
+      print(
+          "Error fetching countries: ${response.statusCode} - ${response.reasonPhrase}");
+      throw Exception("Failed to load countries");
+    }
+  }
+
+  Future<void> postgptItinerary(
+      String place, String start, String end, String budget) async {
+    String gptPrompt = """Create a travel itinerary to the city of ${place} 
+It should be a JSON structure:  
+- Itinerary Array 
+-Every object in the array with everyday information: 'date',  'hour', 'description':name of the place, location: ['latitude, longitude']. 
+Do not include meals, only touristic places. 
+Skip arrival and return to hotel. 
+Trip dates: ${start} - ${end} (follow this date format MM-dd-yyyy)
+Budget: ${budget} Mexican pesos 
+Only 3 or 4 places per day, hour distributed througout all day
+Don´t group by date, leave all the objects on the same level, the date inside each one of them """;
+
+    String urlEndpoint =
+        "https://travelmategpt.azurewebsites.net/api/gptfunctionhttp?";
+    _isgptLoading = true;
+    notifyListeners(); // Notify that loading started
+
+    // Replace this with your API endpoint
+    final response = await post(Uri.parse(urlEndpoint),
+        body: jsonEncode({'message': gptPrompt}),
+        headers: {'Content-Type': 'application/json'});
+
+    if (response.statusCode == 200) {
+      // Decode the JSON response into a list of country names
+      // final data = (jsonDecode(response.body) as List);
+      final data = jsonDecode(response.body) as Map<String, dynamic>;
+
+      if (data.containsKey("completion")) {
+        final completion = data["completion"] as Map<String, dynamic>;
+        final message = completion["message"] as Map<String, dynamic>;
+        final content = message["content"] as String;
+
+        print(content);
+
+        // Parse the inner content (this is where the itinerary is)
+        var itineraryData = {};
+
+        itineraryData = jsonDecode(content)
+            as Map<String, dynamic>; //ESTE NO ES EL TIPO, HAY QUE CONVERTIRLO
+
+        // print(itineraryData);
+
+        if (itineraryData.containsKey("itinerary")) {
+          final rawItinerary = itineraryData["itinerary"] as List<dynamic>;
+
+          _gptItinerary = rawItinerary.map((item) {
+            if (item is Map<String, dynamic>) {
+              return item;
+            } else {
+              throw FormatException("Unexpected item type in itinerary");
+            }
+          }).toList();
+        }
+      }
+
+      // print(_gptItinerary);
+
+      _isgptLoading = false;
       notifyListeners(); // Notify that loading finished
     } else {
       print("No llegué al endpoint");
