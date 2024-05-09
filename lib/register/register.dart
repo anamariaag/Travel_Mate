@@ -37,9 +37,9 @@ class _RegisterFormState extends State<RegisterForm> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _dobController = TextEditingController();
   bool _acceptTerms = false;
-  String _selectedCountry = 'Seleccionar País';
+  String _selectedCountry = 'Select country';
   List<String> _countries = [
-    'Seleccionar País',
+    'Select country',
     'México',
     'USA',
     'Canada'
@@ -68,7 +68,7 @@ class _RegisterFormState extends State<RegisterForm> {
             TextFormField(
               controller: _firstNameController,
               decoration: InputDecoration(
-                  labelText: 'Nombre',
+                  labelText: 'Name',
                   labelStyle: TextStyle(color: Colors.blue),
                   enabledBorder: UnderlineInputBorder(
                     borderSide: BorderSide(color: Colors.blue),
@@ -79,7 +79,7 @@ class _RegisterFormState extends State<RegisterForm> {
                   hoverColor: Colors.blue),
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'Por favor ingresa tu nombre';
+                  return 'Please enter your name';
                 }
                 return null;
               },
@@ -87,7 +87,7 @@ class _RegisterFormState extends State<RegisterForm> {
             TextFormField(
               controller: _lastNameController,
               decoration: InputDecoration(
-                labelText: 'Apellido',
+                labelText: 'Last name',
                 labelStyle: TextStyle(color: Colors.blue),
                 enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.blue),
@@ -98,7 +98,7 @@ class _RegisterFormState extends State<RegisterForm> {
               ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'Por favor ingresa tu apellido';
+                  return 'Please enter your lastname';
                 }
                 return null;
               },
@@ -106,7 +106,7 @@ class _RegisterFormState extends State<RegisterForm> {
             TextFormField(
               controller: _emailController,
               decoration: InputDecoration(
-                labelText: 'Correo Electrónico',
+                labelText: 'Email',
                 labelStyle: TextStyle(color: Colors.blue),
                 enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.blue),
@@ -117,12 +117,12 @@ class _RegisterFormState extends State<RegisterForm> {
               ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'Por favor ingresa tu correo electrónico';
+                  return 'Please enter your email';
                 }
                 if (!RegExp(
                         r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b')
                     .hasMatch(value)) {
-                  return 'Por favor ingresa un correo electrónico válido';
+                  return 'Please enter a valid email';
                 }
                 return null;
               },
@@ -130,7 +130,7 @@ class _RegisterFormState extends State<RegisterForm> {
             TextFormField(
               controller: _passwordController,
               decoration: InputDecoration(
-                labelText: 'Contraseña',
+                labelText: 'Password',
                 labelStyle: TextStyle(color: Colors.blue),
                 enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.blue),
@@ -142,7 +142,7 @@ class _RegisterFormState extends State<RegisterForm> {
               obscureText: true,
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'Por favor ingresa tu contraseña';
+                  return 'Please enter a password';
                 }
                 return null;
               },
@@ -194,7 +194,7 @@ class _RegisterFormState extends State<RegisterForm> {
                 });
               },
               decoration: InputDecoration(
-                labelText: 'País',
+                labelText: 'Country',
                 labelStyle: TextStyle(color: Colors.blue),
                 enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.blue),
@@ -204,8 +204,8 @@ class _RegisterFormState extends State<RegisterForm> {
                 ),
               ),
               validator: (value) {
-                if (value == 'Seleccionar País') {
-                  return 'Por favor selecciona tu país';
+                if (value == 'Select country') {
+                  return 'Please select your country';
                 }
                 return null;
               },
@@ -221,7 +221,7 @@ class _RegisterFormState extends State<RegisterForm> {
                     });
                   },
                 ),
-                Text('Aceptar Términos y Condiciones'),
+                Text('Accept terms and conditions'),
               ],
             ),
             ElevatedButton(
