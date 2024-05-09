@@ -6,8 +6,6 @@ import 'package:latlong2/latlong.dart';
 import 'package:intl/intl.dart';
 import 'package:travel_mate/itinerary/itinerary.dart';
 
-void main() => runApp(ItineraryDetails());
-
 class ItineraryDetails extends StatelessWidget {
   Itinerary? itinerary;
 

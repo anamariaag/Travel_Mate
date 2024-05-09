@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:travel_mate/app_colors.dart';
 import 'package:travel_mate/auth/bloc/auth_bloc.dart';
@@ -8,6 +9,7 @@ import 'package:travel_mate/itinerary/bloc/itinerary_bloc.dart';
 import 'package:travel_mate/itinerary/itinerary_repository.dart';
 import 'package:travel_mate/itinerary/my_itineraries.dart';
 import 'package:travel_mate/login/login.dart';
+import 'package:travel_mate/profile/profile_provider.dart';
 
 ThemeData buildAppTheme() {
   return ThemeData(
@@ -46,6 +48,7 @@ void main() async {
           create: (context) => AuthBloc()..add(VerifyAuthEvent()),
         ),
         BlocProvider(create: (_) => ItineraryBloc(ItineraryRepository())),
+        ChangeNotifierProvider(create: (context) => ProfileProvider()),
       ],
       child: MyApp(),
     ),
@@ -62,7 +65,19 @@ class MyApp extends StatelessWidget {
         listener: (context, state) {
           if (state is AuthErrorState) {
             print("Error al autenticar");
+          } else if (state is RegisterErrorState) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('Error while registering'),
+              ),
+            );
+            Navigator.of(context).pop();
           } else if (state is RegisterSuccessState) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('Successfully registered please login'),
+              ),
+            );
             Navigator.of(context).pop();
           }
         },
@@ -71,7 +86,9 @@ class MyApp extends StatelessWidget {
             return MyItineraries();
           } else if (state is UnAuthState ||
               state is AuthErrorState ||
-              state is SignOutSuccessState) {
+              state is SignOutSuccessState ||
+              state is RegisterErrorState ||
+              state is RegisterSuccessState) {
             return Login();
           }
           return Center(
