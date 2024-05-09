@@ -18,6 +18,8 @@ class NewItineraryProvider with ChangeNotifier {
   bool get isCountriesLoading => _isCountriesLoading;
   bool get isCitiesLoading => _isCitiesLoading;
 
+  String gptPrompt = """ """;
+
   Future<void> selectStartDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,

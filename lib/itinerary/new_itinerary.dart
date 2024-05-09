@@ -354,9 +354,7 @@ class _NewItinerarScreenState extends State<NewItinerarScreen> {
             ],
           ),
           ElevatedButton(
-              onPressed: () {
-                // print(context.watch<NewItineraryProvider>().countries);
-              },
+              onPressed: () async {},
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [Text("Create New Trip")],
