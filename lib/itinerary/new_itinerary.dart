@@ -381,13 +381,20 @@ class _NewItinerarScreenState extends State<NewItinerarScreen> {
                   for (var item in localgptItinerary) {
                     Map<String, dynamic> individualplace = {
                       "done": false,
-                      "start": Timestamp.fromDate(DateFormat("yyyy-MM-dd HH:mm")
+                      "start": Timestamp.fromDate(DateFormat("MM-dd-yyyy HH:mm")
                           .parse("${item['date']} ${item['hour']}")),
-                      "location":
-                          GeoPoint(item['location'][0], item['location'][1]),
+                      "location": GeoPoint(
+                          double.parse((item['location'][0]).toString()),
+                          double.parse((item['location'][1]).toString())),
                       "title": item['description'],
                     };
                     places.add(individualplace);
+
+                    // print(item['date']);
+                    // print(item['hour']);
+                    // print(item['location'][0]);
+                    // print(item['location'][1]);
+                    // print(item['description']);
                   }
 
                   // print(places);
@@ -417,7 +424,7 @@ class _NewItinerarScreenState extends State<NewItinerarScreen> {
                   BlocProvider.of<ItineraryBloc>(context)
                       .add(AddItinerary(finalIntinerary));
                   Navigator.of(context).pop();
-                  //prompt a snackbar to the user, successful or failed.
+                  // prompt a snackbar to the user, successful or failed.
                 },
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
@@ -431,7 +438,7 @@ class _NewItinerarScreenState extends State<NewItinerarScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("Asking IA..."),
+                    Text("GPT creating Itinerary..."),
                     SizedBox(
                       width: 10.0,
                     ),

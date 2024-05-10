@@ -112,7 +112,8 @@ Skip arrival and return to hotel.
 Trip dates: ${start} - ${end} (follow this date format MM-dd-yyyy)
 Budget: ${budget} Mexican pesos 
 Only 3 or 4 places per day, hour distributed througout all day
-Don´t group by date, leave all the objects on the same level, the date inside each one of them """;
+Don´t group by date, leave all the objects on the same level, the date inside each one of them
+Don´t give any description extra, just the JSON structrure object """;
 
     String urlEndpoint =
         "https://travelmategpt.azurewebsites.net/api/gptfunctionhttp?";
@@ -130,19 +131,21 @@ Don´t group by date, leave all the objects on the same level, the date inside e
       final data = jsonDecode(response.body) as Map<String, dynamic>;
 
       if (data.containsKey("completion")) {
-        final completion = data["completion"] as Map<String, dynamic>;
-        final message = completion["message"] as Map<String, dynamic>;
-        final content = message["content"] as String;
+        // final completion = data["completion"] as Map<String, dynamic>;
+        // final message = completion["message"] as Map<String, dynamic>;
+        var content = data["completion"]['message']['content'] as String;
+        content = content.replaceAll('```json', '').replaceAll('```', '');
 
+        // print(message);
         print(content);
 
         // Parse the inner content (this is where the itinerary is)
-        var itineraryData = {};
+        // final Map<String, dynamic> itineraryData =
+        //     jsonDecode(content) as Map<String, dynamic>;
 
-        itineraryData = jsonDecode(content)
-            as Map<String, dynamic>; //ESTE NO ES EL TIPO, HAY QUE CONVERTIRLO
+        final itineraryData = jsonDecode(content) as Map<String, dynamic>;
 
-        // print(itineraryData);
+        print(itineraryData);
 
         if (itineraryData.containsKey("itinerary")) {
           final rawItinerary = itineraryData["itinerary"] as List<dynamic>;
@@ -157,7 +160,7 @@ Don´t group by date, leave all the objects on the same level, the date inside e
         }
       }
 
-      // print(_gptItinerary);
+      print(_gptItinerary);
 
       _isgptLoading = false;
       notifyListeners(); // Notify that loading finished
