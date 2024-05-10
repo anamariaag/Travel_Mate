@@ -45,7 +45,7 @@ class MyItineraries extends StatelessWidget {
       body: BlocBuilder<ItineraryBloc, ItineraryState>(
         builder: (context, state) {
           if (state is ItinerariesLoading) {
-            return CircularProgressIndicator();
+            return Center(child: CircularProgressIndicator());
           } else if (state is ItinerariesLoaded) {
             return ListView.builder(
               itemCount: state.itineraries.length,

@@ -49,7 +49,7 @@ class ItineraryDetailsScreen extends StatefulWidget {
 class _ItineraryDetailsScreenState extends State<ItineraryDetailsScreen> {
   List<DateTime> _generateDateOptions(DateTime start, DateTime end) {
     List<DateTime> options = [];
-    DateTime currentDate = DateTime.utc(start.year, start.month, start.day);
+    DateTime currentDate = DateTime(start.year, start.month, start.day);
 
     while (currentDate.isBefore(end) || currentDate.isAtSameMomentAs(end)) {
       options.add(currentDate);

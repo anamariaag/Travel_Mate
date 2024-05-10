@@ -33,6 +33,8 @@ class ItineraryBloc extends Bloc<ItineraryEvent, ItineraryState> {
     try {
       await _itineraryRepository.addItinerary(event.itinerary);
       emit(ItineraryAdded(event.itinerary));
+      final itineraries = await _itineraryRepository.getItineraries();
+      emit(ItinerariesLoaded(itineraries));
     } catch (e) {
       emit(ItineraryError('Failed to add itinerary: $e'));
     }
@@ -54,6 +56,8 @@ class ItineraryBloc extends Bloc<ItineraryEvent, ItineraryState> {
     try {
       await _itineraryRepository.deleteItinerary(event.itineraryId);
       emit(ItineraryDeleted(event.itineraryId));
+      final itineraries = await _itineraryRepository.getItineraries();
+      emit(ItinerariesLoaded(itineraries));
     } catch (e) {
       emit(ItineraryError('Failed to delete itinerary: $e'));
     }

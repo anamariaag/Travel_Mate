@@ -9,12 +9,15 @@ import 'package:travel_mate/itinerary/bloc/itinerary_bloc.dart';
 import 'package:travel_mate/itinerary/itinerary_repository.dart';
 import 'package:travel_mate/itinerary/my_itineraries.dart';
 import 'package:travel_mate/login/login.dart';
+import 'package:travel_mate/itinerary/provider/new_itineray_provider.dart';
 import 'package:travel_mate/profile/profile_provider.dart';
 
 ThemeData buildAppTheme() {
   return ThemeData(
       // Define the base color scheme
       colorScheme: ColorScheme(
+        background: AppColors.backgroundColor,
+        onBackground: AppColors.onBackgroundColor,
         primary: AppColors.primaryColor,
         secondary: AppColors.secondaryColor,
         surface: AppColors.surfaceColor,
@@ -48,6 +51,9 @@ void main() async {
           create: (context) => AuthBloc()..add(VerifyAuthEvent()),
         ),
         BlocProvider(create: (_) => ItineraryBloc(ItineraryRepository())),
+        ChangeNotifierProvider(
+          create: (context) => NewItineraryProvider(),
+        ),
         ChangeNotifierProvider(create: (context) => ProfileProvider()),
       ],
       child: MyApp(),
